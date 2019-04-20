@@ -21,7 +21,6 @@ public class PerceptronClassifier extends LinearClassifier {
 	 */
 	public double threshold(double z) {
 		// This must be implemented by you
-		return 0;
 	}
 	
 }
