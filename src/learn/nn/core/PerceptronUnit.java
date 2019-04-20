@@ -13,6 +13,7 @@ public class PerceptronUnit extends NeuronUnit {
 	@Override
 	public double activation(double z) {
 		// This must be implemented by you
+		return 0;
 	}
 	
 	/**
