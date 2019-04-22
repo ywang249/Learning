@@ -14,10 +14,12 @@ public class LogisticClassifier extends LinearClassifier {
 	 */
 	public void update(double[] x, double y, double alpha) {
 		// This must be implemented by you
+		double[] new_weights = new double[weights.length];
 		for (int i = 0; i < weights.length; i++) {
 			double hw_x = eval(x);
-			weights[i] = weights[i] + alpha * (y - hw_x) * hw_x * (1 - hw_x) * x[i];
+			new_weights[i] = weights[i] + alpha * (y - hw_x) * hw_x * (1 - hw_x) * x[i];
 		}
+		weights = new_weights;
 	}
 	
 	/**

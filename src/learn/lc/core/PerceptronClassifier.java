@@ -14,9 +14,11 @@ public class PerceptronClassifier extends LinearClassifier {
 	 */
 	public void update(double[] x, double y, double alpha) {
 		// This must be implemented by you
+        double[] new_weights = new double[weights.length];
         for (int i = 0; i < weights.length; i++) {
-            weights[i] = weights[i] + alpha * (y - eval(x)) * x[i];
+            new_weights[i] = weights[i] + alpha * (y - eval(x)) * x[i];
         }
+        weights = new_weights;
 	}
 	
 	/**
