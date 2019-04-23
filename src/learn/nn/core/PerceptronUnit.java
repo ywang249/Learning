@@ -13,9 +13,12 @@ public class PerceptronUnit extends NeuronUnit {
 	@Override
 	public double activation(double z) {
 		// This must be implemented by you
+		if (z >= 0) {
+			return 1;
+		}
 		return 0;
 	}
-	
+
 	/**
 	 * Update this unit's weights using the Perceptron learning
 	 * rule (AIMA Eq 18.7).
@@ -24,6 +27,10 @@ public class PerceptronUnit extends NeuronUnit {
 	 */
 	@Override
 	public void update(double[] x, double y, double alpha) {
-		// This must be implemented by you
+//		double[] new_weights = new double[weights.length];
+//		for (int i = 0; i < weights.length; i++) {
+//			new_weights[i] = weights[i] + alpha * (y - eval(x)) * x[i];
+//		}
+//		weights = new_weights;
 	}
 }
