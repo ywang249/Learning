@@ -1,5 +1,7 @@
 package learn.nn.core;
 
+import learn.math.util.VectorOps;
+
 /**
  * Base class for the non-input units of a NeuralNetwork.
  * Do not include an input for the constant a_0=1.0 (AIMA p. 728)

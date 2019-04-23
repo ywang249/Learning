@@ -1,6 +1,7 @@
 package learn.nn.core;
 
 import java.util.List;
+import java.util.Random;
 
 import learn.nn.core.Example;
 
@@ -39,7 +40,19 @@ abstract public class SingleLayerFeedForwardNeuralNetwork extends FeedForwardNeu
 			System.out.println();
 		}
 	}
-	
+
+	public void initializeWeights() {
+		NeuronUnit units[] = (NeuronUnit[])this.layers[1];
+		for (int i=0; i < units.length; i++) {
+			NeuronUnit unit = units[i];
+			for (Connection conn : unit.incomingConnections) {
+				double w = random.nextDouble() * 0.1 - 0.05;
+				conn.weight = w;
+			}
+		}
+	}
+	protected Random random = new Random();
+
 	/**
 	 * Train this SingleLayerFeedForwardNeuralNetwork on the given Examples,
 	 * using given learning rate alpha.
@@ -48,6 +61,10 @@ abstract public class SingleLayerFeedForwardNeuralNetwork extends FeedForwardNeu
 	 */
 	public void train(List<Example> examples, double alpha) {
 		// This must be implemented by you
+		initializeWeights();
+		for (Example example : examples) {
+			train(example, alpha);
+		}
 	}
 	
 	/**

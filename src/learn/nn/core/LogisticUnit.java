@@ -34,12 +34,18 @@ public class LogisticUnit extends NeuronUnit {
 	 */
 	@Override
 	public void update(double[] x, double y, double alpha) {
-//		double[] new_weights = new double[weights.length];
-//		for (int i = 0; i < weights.length; i++) {
-//			double hw_x = eval(x);
-//			new_weights[i] = weights[i] + alpha * (y - hw_x) * hw_x * (1 - hw_x) * x[i];
-//		}
-//		weights = new_weights;
+		double[] new_weights = new double[x.length + 1];
+		run();
+		double output = getOutput();
+		for (int i = 0; i < new_weights.length; i++) {
+			if (i == 0) {
+				new_weights[i] = getWeight(i) + alpha * (y - output) * output * (1 - output) * 1;
+			} else {
+				new_weights[i] = getWeight(i) + alpha * (y - output) * output * (1 - output) * x[i];
+			}
+		}
+		for (int i = 0; i < new_weights.length; i++) {
+			setWeight(i, new_weights[i]);
+		}
 	}
-	
 }

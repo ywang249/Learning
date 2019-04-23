@@ -190,6 +190,7 @@ abstract public class MultiLayerFeedForwardNeuralNetwork extends FeedForwardNeur
 		//         Delta[i] <- g'(in_i) * \sum_j w_ij Delta[j]
 		// for each weight w_ij in network do
 		//     w_ij <- w_ij + alpha * a_i * delta_j
+
 	}
 	
 	/**

@@ -27,10 +27,18 @@ public class PerceptronUnit extends NeuronUnit {
 	 */
 	@Override
 	public void update(double[] x, double y, double alpha) {
-//		double[] new_weights = new double[weights.length];
-//		for (int i = 0; i < weights.length; i++) {
-//			new_weights[i] = weights[i] + alpha * (y - eval(x)) * x[i];
-//		}
-//		weights = new_weights;
+		double[] new_weights = new double[x.length + 1];
+		run();
+		double output = getOutput();
+		for (int i = 0; i < new_weights.length; i++) {
+			if (i == 0) {
+				new_weights[i] = getWeight(i) + alpha * (y - output) * 1;
+			} else {
+				new_weights[i] = getWeight(i) + alpha * (y - output) * x[i];
+			}
+		}
+		for (int i = 0; i < new_weights.length; i++) {
+			setWeight(i, new_weights[i]);
+		}
 	}
 }
