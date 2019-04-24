@@ -204,12 +204,12 @@ abstract public class MultiLayerFeedForwardNeuralNetwork extends FeedForwardNeur
 		delta_map.put(layer_len - 1, output_delta);
 
 		// for l = L-1 to 1 do
-		for (int l = layer_len - 2; l >= 0; l--) {
+		for (int l = layer_len - 2; l >= 1; l--) {
 			NeuronUnit[] units = (NeuronUnit[])layers[l];
 			double[] delta_i = new double[units.length];
 			//  for each node i in layer l do
 			for (int i = 0; i < units.length; i++) {
-				double[] delta_j = delta_map.get(i+1);
+				double[] delta_j = delta_map.get(l+1);
 				double in_i = units[i].getInputSum();
 				List<Connection> out_going = units[i].outgoingConnections;
 				double sum = 0;
@@ -224,11 +224,10 @@ abstract public class MultiLayerFeedForwardNeuralNetwork extends FeedForwardNeur
 
 		// for each weight w_ij in network do
 		for (int m = 0; m < layer_len - 1; m++) {
-			NeuronUnit[] units = (NeuronUnit[])layers[m];
-			for (int i = 0; i < units.length; i++) {
-				List<Connection> out_going = units[i].outgoingConnections;
+			for (int i = 0; i < layers[m].length; i++) {
+				List<Connection> out_going = layers[m][i].outgoingConnections;
 				for (int j = 0; j < out_going.size(); j++) {
-					out_going.get(j).weight = out_going.get(j).weight + alpha * units[i].output * delta_map.get(m+1)[j];
+					out_going.get(j).weight = out_going.get(j).weight + alpha * layers[m][i].getOutput() * delta_map.get(m+1)[j];
 				}
 			}
 		}
