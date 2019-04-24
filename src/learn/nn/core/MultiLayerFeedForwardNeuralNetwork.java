@@ -1,9 +1,8 @@
 package learn.nn.core;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-
-import learn.nn.core.Example;
 
 /**
  * A MultiLayerFeedForwardNeuralNetwork is a FeedForwardNeuralNetwork with at
@@ -190,6 +189,49 @@ abstract public class MultiLayerFeedForwardNeuralNetwork extends FeedForwardNeur
 		//         Delta[i] <- g'(in_i) * \sum_j w_ij Delta[j]
 		// for each weight w_ij in network do
 		//     w_ij <- w_ij + alpha * a_i * delta_j
+
+		int layer_len = layers.length;
+		int output_len = layers[layer_len - 1].length;
+		HashMap<Integer, double[]> delta_map = new HashMap<>(); // key: layer number, value: delta of each node
+
+		NeuronUnit[] output_units = (NeuronUnit[])layers[layer_len - 1];
+		double[] output_delta = new double[output_len];
+		// for each node j in the output layer do
+		for (int j = 0; j < output_len; j++) {
+			double in_j =  output_units[j].getInputSum();
+			output_delta[j] = output_units[j].activationPrime(in_j) * (example.outputs[j] - output_units[j].output);
+		}
+		delta_map.put(layer_len - 1, output_delta);
+
+		// for l = L-1 to 1 do
+		for (int l = layer_len - 2; l >= 0; l--) {
+			NeuronUnit[] units = (NeuronUnit[])layers[l];
+			double[] delta_i = new double[units.length];
+			//  for each node i in layer l do
+			for (int i = 0; i < units.length; i++) {
+				double[] delta_j = delta_map.get(i+1);
+				double in_i = units[i].getInputSum();
+				List<Connection> out_going = units[i].outgoingConnections;
+				double sum = 0;
+				// \sum_j w_ij Delta[j]
+				for (int j = 0; j < out_going.size(); j++) {
+					sum += out_going.get(j).weight * delta_j[j];
+				}
+				delta_i[i] = units[i].activationPrime(in_i) * sum;
+			}
+			delta_map.put(l, delta_i);
+		}
+
+		// for each weight w_ij in network do
+		for (int m = 0; m < layer_len - 1; m++) {
+			NeuronUnit[] units = (NeuronUnit[])layers[m];
+			for (int i = 0; i < units.length; i++) {
+				List<Connection> out_going = units[i].outgoingConnections;
+				for (int j = 0; j < out_going.size(); j++) {
+					out_going.get(j).weight = out_going.get(j).weight + alpha * units[i].output * delta_map.get(m+1)[j];
+				}
+			}
+		}
 
 	}
 	

@@ -19,6 +19,11 @@ public class PerceptronUnit extends NeuronUnit {
 		return 0;
 	}
 
+	@Override
+	public double activationPrime(double z) {
+		return 0;
+	}
+
 	/**
 	 * Update this unit's weights using the Perceptron learning
 	 * rule (AIMA Eq 18.7).
@@ -27,18 +32,13 @@ public class PerceptronUnit extends NeuronUnit {
 	 */
 	@Override
 	public void update(double[] x, double y, double alpha) {
-		double[] new_weights = new double[x.length + 1];
-		run();
-		double output = getOutput();
-		for (int i = 0; i < new_weights.length; i++) {
+		double output = h_w(x);
+		for (int i = 0; i < x.length + 1; i++) {
 			if (i == 0) {
-				new_weights[i] = getWeight(i) + alpha * (y - output) * 1;
+				setWeight(i, getWeight(i) + alpha * (y - output) * 1);
 			} else {
-				new_weights[i] = getWeight(i) + alpha * (y - output) * x[i];
+				setWeight(i, getWeight(i) + alpha * (y - output) * x[i - 1]);
 			}
-		}
-		for (int i = 0; i < new_weights.length; i++) {
-			setWeight(i, new_weights[i]);
 		}
 	}
 }

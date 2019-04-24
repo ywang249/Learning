@@ -21,6 +21,7 @@ public class LogisticUnit extends NeuronUnit {
 	 * For g(z)=1/(1+e^(-z)), g'(z)=g(z)*(1-g(z)) (AIMA p. 727).
 	 * @see https://calculus.subwiki.org/wiki/Logistic_function#First_derivative
 	 */
+	@Override
 	public double activationPrime(double z) {
 		double y = activation(z);
 		return y * (1.0 - y);
@@ -34,18 +35,13 @@ public class LogisticUnit extends NeuronUnit {
 	 */
 	@Override
 	public void update(double[] x, double y, double alpha) {
-		double[] new_weights = new double[x.length + 1];
-		run();
-		double output = getOutput();
-		for (int i = 0; i < new_weights.length; i++) {
+		double output = h_w(x);
+		for (int i = 0; i < x.length + 1; i++) {
 			if (i == 0) {
-				new_weights[i] = getWeight(i) + alpha * (y - output) * output * (1 - output) * 1;
+				setWeight(i, getWeight(i) + alpha * (y - output) * output * (1 - output) * 1);
 			} else {
-				new_weights[i] = getWeight(i) + alpha * (y - output) * output * (1 - output) * x[i];
+				setWeight(i, getWeight(i) + alpha * (y - output) * output * (1 - output) * x[i - 1]);
 			}
-		}
-		for (int i = 0; i < new_weights.length; i++) {
-			setWeight(i, new_weights[i]);
 		}
 	}
 }
