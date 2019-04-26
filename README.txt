@@ -12,4 +12,5 @@ Then
 
 java learn/lc/examples/LogisticClassifierTest [file-name] [# of iterations] [learning rate]
 
-ex: java learn/lc/examples/LogisticClassifierTest “learn/lc/examples/house-votes-84.data.num.txt” 10000 0.1
+ex: java learn/lc/examples/LogisticClassifierTest learn/lc/examples/house-votes-84.data.num.txt 10000 0.1
+    java learn/nn/examples/IrisNN

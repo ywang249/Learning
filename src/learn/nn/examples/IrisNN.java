@@ -124,7 +124,7 @@ public class IrisNN extends MultiLayerFeedForwardNeuralNetwork {
         if (argv.length > 1) {
             alpha = Double.parseDouble(argv[1]);
         }
-        List<Example> examples = new IrisExampleGenerator("src/learn/nn/examples/iris.data.txt").examples();
+        List<Example> examples = new IrisExampleGenerator("learn/nn/examples/iris.data.txt").examples();
         IrisNN network = new IrisNN();
         System.out.println("Training for " + epochs + " epochs with alpha=" + alpha);
         network.train(examples, epochs, alpha);
